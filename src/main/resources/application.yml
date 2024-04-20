@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: avro-kafaka-sample
+
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+      - localhost:9093
+      - localhost:9094
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.example.avrokafakasample.kafka.AvroSerializer
+
+    consumer:
+      auto-offset-reset: latest
+      group-id: avro
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.example.avrokafakasample.kafka.AvroDeserializer

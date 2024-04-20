@@ -1,0 +1,1 @@
+./gradlew generateAvroJava 실행 후 돌려주세욥..

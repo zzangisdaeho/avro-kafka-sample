@@ -1,0 +1,57 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id 'com.github.davidmc24.gradle.plugin.avro' version '1.3.0' // Avro 플러그인
+
+}
+
+group = 'org.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.apache.kafka:kafka-streams'
+	implementation 'org.springframework.kafka:spring-kafka'
+
+	// https://mvnrepository.com/artifact/org.apache.avro/avro
+	implementation 'org.apache.avro:avro:1.11.3'
+
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// Avro 플러그인 설정
+avro {
+	createSetters = true // setter 메소드 생성 여부
+	fieldVisibility = 'PRIVATE' // 필드 가시성 설정
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir 'build/generated-main-avro-java'
+		}
+	}
+}
