@@ -5,6 +5,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### Avro ###
+src/main/avro/
+
 ### STS ###
 .apt_generated
 .classpath

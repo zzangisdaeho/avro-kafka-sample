@@ -42,6 +42,30 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+// Git에서 스키마 파일을 체크아웃하기 위한 테스크
+task checkoutSchema {
+	doLast {
+		File avroDir = file("${projectDir}/src/main/avro")
+		if (avroDir.exists()) {
+			// 디렉터리가 존재하면 pull로 업데이트
+			exec {
+				workingDir avroDir
+				commandLine 'git', 'pull'
+			}
+		} else {
+			// 디렉터리가 없으면 클론
+			exec {
+				commandLine 'git', 'clone', 'https://github.com/zzangisdaeho/avro-schema-sample', avroDir
+			}
+		}
+	}
+}
+
+// checkoutSchema 테스크가 실행된 후에 Avro 소스를 생성
+tasks.named('generateAvroJava') {
+	dependsOn checkoutSchema
+}
+
 // Avro 플러그인 설정
 avro {
 	createSetters = true // setter 메소드 생성 여부
